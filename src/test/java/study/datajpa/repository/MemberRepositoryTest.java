@@ -1,5 +1,6 @@
 package study.datajpa.repository;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +28,11 @@ class MemberRepositoryTest {
 
     @Autowired MemberRepository memberRepository;
     @PersistenceContext EntityManager em;
+
+    @AfterEach
+    public void clear(){
+        memberRepository.deleteAll();
+    }
 
     @Test
     public void testMember() {
@@ -168,6 +174,41 @@ class MemberRepositoryTest {
         System.out.println("member.get(0).getAge() = " + member.get(0).getAge());
 
     }
+
+    @Test
+    public void findMemberCustom(){
+        //given
+        Member member = new Member("memberA", 20);
+        memberRepository.save(member);
+
+        em.flush();
+        em.clear();
+
+        List<Member> members = memberRepository.findMemberCustom();
+
+    }
+
+    @Test
+    public void JpaEventBaseEntity() throws Exception {
+        Member member = new Member("memberA", 10);
+        memberRepository.save(member);
+
+        Thread.sleep(100);
+
+        member.setUsername("memberB");
+
+        em.flush();
+        em.clear();
+
+        Member findMember = memberRepository.findById(member.getId()).get();
+
+        System.out.println("findMember.createDate = " + findMember.getCreatedDate());
+        System.out.println("findMember.updateDate = " + findMember.getLastModifiedDate());
+        System.out.println("findMember.getCreatedBy = " + findMember.getCreatedBy());
+        System.out.println("findMember.getLastModifiedBy = " + findMember.getLastModifiedBy());
+    }
+
+
 
 
 }

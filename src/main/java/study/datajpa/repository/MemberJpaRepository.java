@@ -8,6 +8,8 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
+
+
 @Repository
 public class MemberJpaRepository {
 

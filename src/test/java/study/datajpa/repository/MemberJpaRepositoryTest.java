@@ -160,4 +160,6 @@ class MemberJpaRepositoryTest {
         //then
     }
 
+
+
 }

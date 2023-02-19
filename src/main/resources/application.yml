@@ -13,6 +13,11 @@ spring:
         # show_sql: true
         format_sql: true
 
+  data:
+    web:
+      pageable:
+        default-page-size: 20 # 기본 페이지 사이즈
+        max-page-size: 2000 # 최대 페이지 사이즈
 
 logging.level:
   org.hibernate.SQL: debug
